@@ -84,3 +84,4 @@ D:\Вова Важное\GitHub\fitness\backend\Fitness>curl http://localhost:50
 http://localhost:5000/swagger/index.html
 ```
 
+# После всего этого, можно открыть html файл в папке frontend, должно всё работать
