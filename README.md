@@ -16,6 +16,7 @@
 
 ### Зайди в консоль и выполни cd <путь к файлу> туда, где будет лежать файл Dockerfile
 
+Пример в консоли:
 ```
 D:\>cd D:\Вова Важное\GitHub\fitness\backend\Fitness
 ```
@@ -24,20 +25,24 @@ D:\>cd D:\Вова Важное\GitHub\fitness\backend\Fitness
 
 ### Выполни команду docker-compose up -d
 
+Команда:
 ```
 docker-compose up -d
 ```
 
+Пример в консоли:
 ```
 D:\Вова Важное\GitHub\fitness\backend\Fitness>docker-compose up -d
 ```
 
 ### Проверь работу с помощью docker ps
 
+Команда:
 ```
 docker ps
 ```
 
+Пример в консоли:
 ```
 D:\Вова Важное\GitHub\fitness\backend\Fitness>docker ps
 CONTAINER ID   IMAGE                 COMMAND                  CREATED              STATUS                        PORTS                                         NAMES
@@ -49,10 +54,12 @@ CONTAINER ID   IMAGE                 COMMAND                  CREATED           
 
 ### Post
 
+Команда:
 ```
 curl -X POST http://localhost:5000/Memberships -H "Content-Type: application/json" -d "{\"name\":\"Премиум\",\"descriptions\":\"Безлимитный доступ во все зоны, включая бассейн и спа\",\"price\":5000}"
 ```
 
+Пример в консоли:
 ```
 D:\Вова Важное\GitHub\fitness\backend\Fitness>curl -X POST http://localhost:5000/Memberships -H "Content-Type: application/json" -d "{\"name\":\"Премиум\",\"descriptions\":\"Безлимитный доступ во все зоны, включая бассейн и спа\",\"price\":5000}"
 "5326b2b9-a65b-4360-a4d9-496284eb5a52"
@@ -60,10 +67,12 @@ D:\Вова Важное\GitHub\fitness\backend\Fitness>curl -X POST http://loca
 
 ### Get
 
+Команда:
 ```
 curl http://localhost:5000/Memberships
 ```
 
+Пример в консоли:
 ```
 D:\Вова Важное\GitHub\fitness\backend\Fitness>curl http://localhost:5000/Memberships
 [{"id":"83004bd8-9953-426f-a285-3eed395e9910","name":"курс","descriptions":"да","price":20},{"id":"5326b2b9-a65b-4360-a4d9-496284eb5a52","name":"Премиум","descriptions":"Безлимитный доступ во все зоны, включая бассейн и спа","price":5000}]
