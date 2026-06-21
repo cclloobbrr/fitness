@@ -1,0 +1,899 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Фитнес-профи</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700;14..32,800&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== RESET & BASE ===== */
+        *,
+        *::before,
+        *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #1a1a1a;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        img {
+            display: block;
+            max-width: 100%;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        button {
+            font-family: inherit;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        ul,
+        ol {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 12px;
+            letter-spacing: -0.02em;
+        }
+
+        .section-subtitle {
+            font-size: 18px;
+            font-weight: 400;
+            text-align: center;
+            color: #666;
+            max-width: 560px;
+            margin: 0 auto 50px;
+        }
+
+        @media (min-width: 768px) {
+            .section-title {
+                font-size: 36px;
+            }
+            .section-subtitle {
+                font-size: 20px;
+            }
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 36px;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 16px;
+            transition: background-color 0.2s, color 0.2s, transform 0.15s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-yellow {
+            background-color: #ffea00;
+            color: #000;
+        }
+
+        .btn-yellow:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .btn-gray {
+            background-color: #e0e0e0;
+            color: #000;
+        }
+
+        .btn-gray:hover {
+            background-color: #000;
+            color: #fff;
+        }
+
+        .btn-sm {
+            padding: 10px 28px;
+            font-size: 14px;
+            border-radius: 30px;
+        }
+
+        /* ===== HERO COVER ===== */
+        .hero {
+            position: relative;
+            height: 100vh;
+            min-height: 600px;
+            display: flex;
+            align-items: center;
+            background-image: url('https://thb.tildacdn.ink/tild3566-3835-4238-a532-636639313732/-/resize/20x/photo_2022-08-02_175.jpeg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0.20));
+            z-index: 1;
+        }
+
+        .hero .container {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+        }
+
+        .hero-content {
+            max-width: 700px;
+            color: #fff;
+        }
+
+        .hero-content h1 {
+            font-size: 42px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+
+        .hero-content p {
+            font-size: 20px;
+            opacity: 0.9;
+            margin-bottom: 32px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+
+        @media (min-width: 768px) {
+            .hero-content h1 {
+                font-size: 54px;
+            }
+            .hero-content p {
+                font-size: 24px;
+            }
+        }
+
+        /* ===== TYPED TEXT STRIP ===== */
+        .typed-strip {
+            background: #ffea00;
+            padding: 18px 0;
+            overflow: hidden;
+            white-space: nowrap;
+            font-weight: 600;
+            font-size: 18px;
+            color: #000;
+        }
+
+        .typed-strip__inner {
+            display: inline-block;
+            animation: scrollText 20s linear infinite;
+        }
+
+        .typed-strip__inner span {
+            margin: 0 40px;
+        }
+
+        @keyframes scrollText {
+            0% {
+                transform: translateX(0);
+            }
+            100% {
+                transform: translateX(-50%);
+            }
+        }
+
+        /* ===== ADVANTAGES (t905) ===== */
+        .advantages {
+            background-color: #eeeeee;
+            padding: 60px 0 90px;
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 20px;
+        }
+
+        .advantage-card {
+            display: flex;
+            flex-direction: column;
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .advantage-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08);
+        }
+
+        .advantage-card__content {
+            padding: 24px 28px 20px;
+            order: 2;
+        }
+
+        .advantage-card__content h3 {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            line-height: 1.3;
+        }
+
+        .advantage-card__content p {
+            font-size: 15px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        .advantage-card__image {
+            height: 220px;
+            background-size: cover;
+            background-position: center;
+            order: 1;
+        }
+
+        @media (min-width: 768px) {
+            .advantages-grid {
+                grid-template-columns: 1fr 1fr;
+                gap: 30px;
+            }
+            .advantage-card {
+                flex-direction: row;
+                align-items: stretch;
+            }
+            .advantage-card__content {
+                flex: 1;
+                order: 1;
+                padding: 28px 32px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .advantage-card__image {
+                flex: 0 0 45%;
+                height: auto;
+                order: 2;
+                min-height: 240px;
+            }
+            /* alternate row: image first on even cards */
+            .advantage-card:nth-child(even) .advantage-card__content {
+                order: 2;
+            }
+            .advantage-card:nth-child(even) .advantage-card__image {
+                order: 1;
+            }
+        }
+
+        @media (min-width: 1024px) {
+            .advantage-card__image {
+                flex: 0 0 40%;
+            }
+        }
+
+        /* ===== GALLERY ===== */
+        .gallery-header {
+            padding: 90px 0 15px;
+            text-align: center;
+        }
+
+        .gallery-header .uptitle {
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #888;
+            margin-bottom: 8px;
+        }
+
+        .gallery-header h2 {
+            font-size: 32px;
+            font-weight: 700;
+        }
+
+        .gallery-header p {
+            font-size: 18px;
+            color: #666;
+            max-width: 560px;
+            margin: 12px auto 0;
+        }
+
+        /* ===== SLIDER ===== */
+        .slider-wrapper {
+            padding: 30px 0 30px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .slider {
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        .slider-track {
+            display: flex;
+            transition: transform 0.4s ease;
+        }
+
+        .slide {
+            flex: 0 0 100%;
+            height: 420px;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slider-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: rgba(232, 232, 232, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            font-weight: 300;
+            color: #000;
+            transition: background 0.2s;
+            z-index: 5;
+            border: none;
+            cursor: pointer;
+        }
+
+        .slider-btn:hover {
+            background: #d0d0d0;
+        }
+
+        .slider-btn.prev {
+            left: 16px;
+        }
+        .slider-btn.next {
+            right: 16px;
+        }
+
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .slider-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #c7c7c7;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .slider-dot.active {
+            background: #222;
+        }
+
+        @media (max-width: 640px) {
+            .slide {
+                height: 280px;
+            }
+            .slider-btn {
+                width: 36px;
+                height: 36px;
+                font-size: 18px;
+            }
+        }
+
+        /* ===== TRAINERS ===== */
+        .trainers {
+            padding: 60px 0 45px;
+        }
+
+        .trainers-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            margin-top: 10px;
+        }
+
+        .trainer-card {
+            text-align: center;
+            padding: 0 10px;
+        }
+
+        .trainer-card__image {
+            width: 160px;
+            height: 160px;
+            border-radius: 50%;
+            background-size: cover;
+            background-position: center;
+            margin: 0 auto 18px;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+        }
+
+        .trainer-card__name {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 2px;
+        }
+
+        .trainer-card__role {
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 12px;
+        }
+
+        .trainer-card__bio {
+            font-size: 15px;
+            color: #444;
+            max-width: 300px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        .trainer-card__bio strong {
+            color: #1a1a1a;
+        }
+
+        @media (min-width: 768px) {
+            .trainers-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 30px;
+            }
+        }
+
+        /* ===== PRICING ===== */
+        .pricing {
+            padding: 45px 0 60px;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-top: 10px;
+        }
+
+        .pricing-card {
+            border: 1px solid #e0e6ed;
+            border-radius: 12px;
+            padding: 32px 24px 28px;
+            text-align: center;
+            transition: box-shadow 0.25s, transform 0.2s;
+            background: #fff;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .pricing-card:hover {
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+            transform: translateY(-3px);
+        }
+
+        .pricing-card__icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background-size: 50% 50%;
+            background-position: center;
+            background-repeat: no-repeat;
+            margin: 0 auto 16px;
+            background-color: #f5f7fa;
+        }
+
+        .pricing-card__title {
+            font-size: 22px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        .pricing-card__features {
+            text-align: left;
+            font-size: 15px;
+            color: #333;
+            margin: 8px 0 18px;
+            flex: 1;
+            padding-left: 4px;
+        }
+
+        .pricing-card__features li {
+            padding: 4px 0 4px 24px;
+            position: relative;
+        }
+
+        .pricing-card__features li::before {
+            content: '•';
+            position: absolute;
+            left: 4px;
+            color: #ffea00;
+            font-weight: 700;
+            font-size: 18px;
+        }
+
+        .pricing-card__features li.strike {
+            color: #858585;
+            text-decoration: line-through;
+        }
+
+        .pricing-card__features li.strike::before {
+            color: #bbb;
+        }
+
+        .pricing-card__price {
+            font-size: 22px;
+            font-weight: 700;
+            margin: 10px 0 18px;
+        }
+
+        .pricing-card .btn {
+            align-self: center;
+            width: 100%;
+            max-width: 200px;
+        }
+
+        @media (min-width: 768px) {
+            .pricing-grid {
+                grid-template-columns: 1fr 1fr 1fr;
+                gap: 24px;
+            }
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            background: #111111;
+            color: #fff;
+            padding: 75px 0 90px;
+            text-align: center;
+        }
+
+        .footer-socials {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 28px;
+        }
+
+        .footer-socials a {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.06);
+            transition: background 0.2s;
+        }
+
+        .footer-socials a:hover {
+            background: rgba(255, 255, 255, 0.14);
+        }
+
+        .footer-socials svg {
+            width: 28px;
+            height: 28px;
+            fill: #fff;
+        }
+
+        .footer-quote {
+            font-size: 24px;
+            font-weight: 700;
+            line-height: 1.3;
+            margin-bottom: 16px;
+        }
+
+        .footer-contacts {
+            font-size: 16px;
+            opacity: 0.7;
+            line-height: 1.8;
+        }
+
+        /* ===== RESPONSIVE TWEAKS ===== */
+        @media (max-width: 640px) {
+            .hero-content h1 {
+                font-size: 32px;
+            }
+            .hero-content p {
+                font-size: 17px;
+            }
+            .hero-buttons .btn {
+                padding: 12px 24px;
+                font-size: 14px;
+            }
+            .section-title {
+                font-size: 24px;
+            }
+            .section-subtitle {
+                font-size: 16px;
+                margin-bottom: 30px;
+            }
+            .footer-quote {
+                font-size: 20px;
+            }
+            .pricing-card {
+                padding: 24px 16px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero {
+                background-attachment: scroll;
+            }
+            .typed-strip {
+                font-size: 15px;
+                padding: 14px 0;
+            }
+            .typed-strip__inner span {
+                margin: 0 20px;
+            }
+            .advantage-card__content h3 {
+                font-size: 18px;
+            }
+            .trainer-card__image {
+                width: 130px;
+                height: 130px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ===== HERO ===== -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Фитнес-профи это:<br />|</h1>
+                <p>Получите лимитированную карту, 30 дней фитнеса в подарок!</p>
+                <div class="hero-buttons">
+                    <button class="btn btn-yellow">Узнать подробности</button>
+                    <button class="btn btn-gray">Подробнее о зале</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== TYPED STRIP ===== -->
+    <div class="typed-strip">
+        <div class="typed-strip__inner">
+            <span>Тренажерный зал 700 м²</span>
+            <span>Студия боевых искусств</span>
+            <span>Экологичный бассейн 25 м</span>
+            <span>Финская сауна и хаммам</span>
+            <span>Тренажерный зал 700 м²</span>
+            <span>Студия боевых искусств</span>
+            <span>Экологичный бассейн 25 м</span>
+            <span>Финская сауна и хаммам</span>
+        </div>
+    </div>
+
+    <!-- ===== ADVANTAGES ===== -->
+    <section class="advantages" id="advantages">
+        <div class="container">
+            <h2 class="section-title">Преимущества</h2>
+            <p class="section-subtitle">Оцените все преимущества нашего премиального фитнес-центра</p>
+
+            <div class="advantages-grid">
+                <div class="advantage-card">
+                    <div class="advantage-card__content">
+                        <h3>Просторный тренажерный зал <br />на 700 м²</h3>
+                        <p>Легко соблюдать дистанцию и <br />нет очередей на тренажеры.</p>
+                    </div>
+                    <div class="advantage-card__image" style="background-image: url('https://static.tildacdn.ink/tild3334-6464-4531-a464-626661636165/_____700_2.jpeg');"></div>
+                </div>
+
+                <div class="advantage-card">
+                    <div class="advantage-card__content">
+                        <h3>Огромная студия <br />под боевые искусства</h3>
+                        <p>Мы уделяем внимание групповым занятиям: просторные студии Фитнес-профи позволяют заниматься с комфортом.</p>
+                    </div>
+                    <div class="advantage-card__image" style="background-image: url('https://static.tildacdn.ink/tild6633-6364-4530-b536-306336336562/____.jpeg');"></div>
+                </div>
+
+                <div class="advantage-card">
+                    <div class="advantage-card__content">
+                        <h3>Экологичный <br />бассейн 25 м</h3>
+                        <p>В бассейне Фитнес-профи — только морская вода.</p>
+                    </div>
+                    <div class="advantage-card__image" style="background-image: url('https://static.tildacdn.ink/tild3237-3437-4634-b634-383133343735/__25_.jpeg');"></div>
+                </div>
+
+                <div class="advantage-card">
+                    <div class="advantage-card__content">
+                        <h3>Финская сауна и <br />хаммам</h3>
+                        <p>После тренировки вы можете прогреть мышцы в горячей финской сауне или теплом хамаме.</p>
+                    </div>
+                    <div class="advantage-card__image" style="background-image: url('https://static.tildacdn.ink/tild3132-3833-4435-b434-653965303238/___.jpeg');"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== GALLERY HEADER ===== -->
+    <div class="gallery-header">
+        <div class="container">
+            <div class="uptitle">фотогалерея</div>
+            <h2>Оцените все 700 м² нашего тренажерного зала</h2>
+            <p>Пролистайте фото и убедитесь, что это лучший зал, <br />в котором вы когда-либо занимались</p>
+        </div>
+    </div>
+
+    <!-- ===== SLIDER ===== -->
+    <div class="slider-wrapper">
+        <div class="slider" id="gallerySlider">
+            <div class="slider-track" id="sliderTrack">
+                <div class="slide" style="background-image: url('https://static.tildacdn.ink/tild3934-3662-4438-b262-616264666432/e41847690105235b71b4.jpg');"></div>
+                <div class="slide" style="background-image: url('https://static.tildacdn.ink/tild3162-6664-4730-b932-333030616239/R20A4193-Edit.jpeg');"></div>
+                <div class="slide" style="background-image: url('https://static.tildacdn.ink/tild3664-6134-4039-a633-373433353233/original_59914844de7.jpeg');"></div>
+            </div>
+            <button class="slider-btn prev" id="prevSlide" aria-label="Предыдущий">‹</button>
+            <button class="slider-btn next" id="nextSlide" aria-label="Следующий">›</button>
+        </div>
+        <div class="slider-dots" id="sliderDots">
+            <button class="slider-dot active" data-index="0"></button>
+            <button class="slider-dot" data-index="1"></button>
+            <button class="slider-dot" data-index="2"></button>
+        </div>
+    </div>
+
+    <!-- ===== TRAINERS ===== -->
+    <section class="trainers" id="trainers">
+        <div class="container">
+            <h2 class="section-title">Наши тренера</h2>
+            <p class="section-subtitle">The smartest people work every day to provide the best service and make our clients happy</p>
+
+            <div class="trainers-grid">
+                <div class="trainer-card">
+                    <div class="trainer-card__image" style="background-image: url('https://static.tildacdn.ink/tild3964-6137-4134-a465-386163396531/noroot.png');"></div>
+                    <div class="trainer-card__name">Камилла Максимова</div>
+                    <div class="trainer-card__role">Персональный тренер</div>
+                    <div class="trainer-card__bio">
+                        <strong>Стаж:</strong> 15 лет<br />
+                        <strong>Специализация:</strong> коррекция фигуры, тренировки со свободными весами, стретчинг (растяжка), индивидуальные программы питания, индивидуальные программы тренировок
+                    </div>
+                </div>
+
+                <div class="trainer-card">
+                    <div class="trainer-card__image" style="background-image: url('https://static.tildacdn.ink/tild6135-6562-4232-a166-656464653635/noroot.png');"></div>
+                    <div class="trainer-card__name">Илья Фокин</div>
+                    <div class="trainer-card__role">Персональный тренер</div>
+                    <div class="trainer-card__bio">
+                        <strong>Стаж:</strong> 18 лет<br />
+                        <strong>Специализация:</strong> набор мышечной массы, тренировки для подростков (16+), общая физическая подготовка (ОФП), коррекция фигуры, тренировки со свободными весами
+                    </div>
+                </div>
+
+                <div class="trainer-card">
+                    <div class="trainer-card__image" style="background-image: url('https://static.tildacdn.ink/tild6237-6663-4038-a131-656333636439/noroot.png');"></div>
+                    <div class="trainer-card__name">Кристина Андрейчук</div>
+                    <div class="trainer-card__role">Персональный тренер</div>
+                    <div class="trainer-card__bio">
+                        <strong>Стаж:</strong> 2 года<br />
+                        <strong>Специализация:</strong> коррекция фигуры, стретчинг (растяжка), пилатес (увеличение гибкости и мобильности), индивидуальные программы питания, тренировки для начинающих
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== PRICING ===== -->
+    <section class="pricing" id="pricing">
+        <div class="container">
+            <h2 class="section-title">Наши тарифы</h2>
+            <p class="section-subtitle">Вы будете приятно удивлены нашими ценами и наполнением тарифов</p>
+
+            <div class="pricing-grid">
+                <!-- Light -->
+                <div class="pricing-card">
+                    <div class="pricing-card__icon" style="background-image: url('https://static.tildacdn.ink/tild6331-3231-4031-b738-313063346633/arm.png');"></div>
+                    <div class="pricing-card__title">Light</div>
+                    <ul class="pricing-card__features">
+                        <li>безлимитный доступ в клуб</li>
+                        <li>тренажерный зал</li>
+                        <li>шкафчик в раздевалке</li>
+                        <li>сейфовые ячейки</li>
+                        <li>анализ состава тела In‑Body</li>
+                        <li>бесплатные тренировки с тренером (Smart Start)</li>
+                        <li>мобильное приложение</li>
+                        <li class="strike">групповые занятия Les Mills</li>
+                        <li class="strike">групповые занятия HIIT</li>
+                        <li class="strike">СПА зона</li>
+                        <li class="strike">доступ во все клубы сети</li>
+                        <li class="strike">доступ для друзей</li>
+                        <li class="strike">семейный доступ</li>
+                    </ul>
+                    <div class="pricing-card__price">1 700₽ / мес</div>
+                    <button class="btn btn-yellow btn-sm">Купить</button>
+                </div>
+
+                <!-- Infinity -->
+                <div class="pricing-card">
+                    <div class="pricing-card__icon" style="background-image: url('https://static.tildacdn.ink/tild3363-6531-4132-b934-303461616337/power_1.png');"></div>
+                    <div class="pricing-card__title">Infinity</div>
+                    <ul class="pricing-card__features">
+                        <li>безлимитный доступ во все клубы сети</li>
+                        <li>доступ для друзей</li>
+                        <li>семейный доступ</li>
+                        <li>тренажерный зал</li>
+                        <li>шкафчик в раздевалке</li>
+                        <li>сейфовые ячейки</li>
+                        <li>анализ состава тела In‑Body</li>
+                        <li>бесплатные тренировки с тренером (Smart Start)</li>
+                        <li>мобильное приложение</li>
+                        <li>групповые занятия Les Mills</li>
+                        <li>групповые занятия HIIT</li>
+                        <li>СПА зона</li>
+                    </ul>
+                    <div class="pricing-card__price">2 300₽ / мес</div>
+                    <button class="btn btn-yellow btn-sm">Купить</button>
+                </div>
+
+                <!-- Smart -->
+                <div class="pricing-card">
+                    <div class="pricing-card__icon" style="background-image: url('https://static.tildacdn.ink/tild6336-6536-4961-b932-393165633565/power.png');"></div>
+                    <div class="pricing-card__title">Smart</div>
+                    <ul class="pricing-card__features">
+                        <li>безлимитный доступ в клуб</li>
+                        <li>тренажерный зал</li>
+                        <li>шкафчик в раздевалке</li>
+                        <li>сейфовые ячейки</li>
+                        <li>анализ состава тела In‑Body</li>
+                        <li>бесплатные тренировки с тренером (Smart Start)</li>
+                        <li>мобильное приложение</li>
+                        <li>групповые занятия Les Mills</li>
+                        <li>групповые занятия HIIT</li>
+                        <li class="strike">СПА зона</li>
+                        <li class="strike">доступ во все клубы сети</li>
+                        <li class="strike">доступ для друзей</li>
+                        <li class="strike">семейный доступ</li>
+                    </ul>
+                    <div class="pricing-card__price">2 000₽ / мес</div>
+                    <button class="btn btn-yellow btn-sm">Купить</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== FOOTER ===== -->
+    <footer class="footer" id="contacts">
+        <div class="container">
+            <div class="footer-socials">
+                <a href="#" aria-label="facebook">
+                    <svg viewBox="0 0 100 100" fill="currentColor"><path fill-rule="evenodd" clip-rule="evenodd" d="M50 100c27.6142 0 50-22.3858 50-50S77.6142 0 50 0 0 22.3858 0 50s22.3858 50 50 50Zm3.431-73.9854c-2.5161.0701-5.171.6758-7.0464 2.4577-1.5488 1.4326-2.329 3.5177-2.5044 5.602-.0534 1.4908-.0458 2.9855-.0382 4.4796.0058 1.1205.0115 2.2407-.0085 3.3587-.6888.005-1.3797.0036-2.0709.0021-.9218-.0019-1.8441-.0038-2.7626.0096 0 .8921.0013 1.7855.0026 2.6797.0026 1.791.0052 3.5853-.0026 5.3799.9185.0134 1.8409.0115 2.7627.0096.6912-.0015 1.382-.0029 2.0708.0021.0155 3.5565.0127 7.1128.0098 10.669-.0036 4.4452-.0072 8.8903.0252 13.3354 1.8903-.0134 3.7765-.0115 5.6633-.0095 1.4152.0014 2.8306.0028 4.2484-.0022.0117-4.0009.0088-7.9986.0058-11.9963-.0029-3.9979-.0058-7.9957.0059-11.9964.9533-.005 1.9067-.0036 2.86-.0021 1.2713.0019 2.5425.0038 3.8137-.0096.396-2.679.7335-5.3814.9198-8.0947-1.2576-.0058-2.5155-.0058-3.7734-.0058-1.2578 0-2.5157 0-3.7734-.0059 0-.4689-.0007-.9378-.0014-1.4066-.0022-1.4063-.0044-2.8123.0131-4.2188.198-1.0834 1.3158-1.9104 2.3992-1.8403h5.1476c.0117-2.8069.0117-5.602 0-8.4089-.6636 0-1.3273-.0007-1.9911-.0014-1.9915-.0022-3.9832-.0044-5.975.0131Z"/></svg>
+                </a>
+                <a href="#" aria-label="twitter">
+                    <svg viewBox="0 0 48 48" fill="currentColor"><path d="M33.3482 14L25.9027 22.4686H25.9023L34 34H28.0445L22.5915 26.2348L15.7644 34H14L21.8082 25.1193L14 14H19.9555L25.119 21.3532L31.5838 14H33.3482ZM22.695 24.1101L23.4861 25.2173V25.2177L28.8746 32.
