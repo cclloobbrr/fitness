@@ -1,0 +1,734 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Фитнес-профи — Абонементы</title>
+    <style>
+        /* ===== ОБЩИЕ СТИЛИ ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 40px;
+        }
+
+        /* ===== КАРТОЧКИ ТАРИФОВ ===== */
+        .memberships-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .membership-card {
+            background: white;
+            border-radius: 12px;
+            padding: 30px 25px;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.08);
+            border: 1px solid #e0e6ed;
+            transition: transform 0.2s, box-shadow 0.2s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .membership-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+        }
+
+        .membership-card .icon {
+            width: 70px;
+            height: 70px;
+            background: #ffea00;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            margin: 0 auto 15px;
+        }
+
+        .membership-card .name {
+            font-size: 24px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+
+        .membership-card .features {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            flex-grow: 1;
+        }
+
+        .membership-card .features li {
+            padding: 6px 0;
+            padding-left: 25px;
+            position: relative;
+            font-size: 14px;
+            color: #555;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .membership-card .features li:last-child {
+            border-bottom: none;
+        }
+
+        .membership-card .features li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        .membership-card .features li.disabled {
+            color: #bbb;
+            text-decoration: line-through;
+        }
+
+        .membership-card .features li.disabled::before {
+            content: "✗";
+            color: #f44336;
+        }
+
+        .membership-card .price {
+            font-size: 26px;
+            font-weight: 700;
+            text-align: center;
+            padding: 15px 0;
+            border-top: 2px solid #f0f0f0;
+            margin-top: 10px;
+        }
+
+        .membership-card .price small {
+            font-size: 14px;
+            font-weight: 400;
+            color: #888;
+        }
+
+        .btn-buy {
+            display: block;
+            width: 100%;
+            padding: 14px;
+            background: #ffea00;
+            color: #000;
+            border: none;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s, transform 0.1s;
+            margin-top: 15px;
+        }
+
+        .btn-buy:hover {
+            background: #f5d500;
+        }
+
+        .btn-buy:active {
+            transform: scale(0.97);
+        }
+
+        .btn-buy:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+        /* ===== СТАТУС / ОШИБКИ ===== */
+        .status {
+            text-align: center;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            display: none;
+        }
+
+        .status.error {
+            display: block;
+            background: #ffebee;
+            color: #c62828;
+            border: 1px solid #ef9a9a;
+        }
+
+        .status.loading {
+            display: block;
+            background: #e3f2fd;
+            color: #0d47a1;
+            border: 1px solid #90caf9;
+        }
+
+        .status.success {
+            display: block;
+            background: #e8f5e9;
+            color: #2e7d32;
+            border: 1px solid #a5d6a7;
+        }
+
+        /* ===== АВТОРИЗАЦИЯ ===== */
+        .auth-section {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+
+        .auth-section .user-info {
+            display: inline-block;
+            margin-right: 20px;
+            font-weight: 500;
+        }
+
+        .auth-section .btn {
+            padding: 10px 25px;
+            border: none;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .auth-section .btn-login {
+            background: #1976d2;
+            color: white;
+        }
+
+        .auth-section .btn-login:hover {
+            background: #1565c0;
+        }
+
+        .auth-section .btn-logout {
+            background: #f44336;
+            color: white;
+        }
+
+        .auth-section .btn-logout:hover {
+            background: #d32f2f;
+        }
+
+        /* ===== МОДАЛЬНОЕ ОКНО ===== */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            max-width: 400px;
+            width: 90%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .modal h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+        }
+
+        .modal input:focus {
+            outline: none;
+            border-color: #1976d2;
+        }
+
+        .modal .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: #1976d2;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .modal .btn-submit:hover {
+            background: #1565c0;
+        }
+
+        .modal .btn-close {
+            width: 100%;
+            padding: 10px;
+            background: transparent;
+            color: #666;
+            border: none;
+            font-size: 14px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .modal .btn-close:hover {
+            color: #333;
+        }
+
+        .modal .switch-form {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .modal .switch-form a {
+            color: #1976d2;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .modal .switch-form a:hover {
+            text-decoration: underline;
+        }
+
+        /* ===== АДАПТИВ ===== */
+        @media (max-width: 768px) {
+            h1 { font-size: 28px; }
+            .memberships-grid { grid-template-columns: 1fr; }
+            .membership-card { padding: 20px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🏋️ Фитнес-профи</h1>
+        <p class="subtitle">Выберите свой идеальный абонемент</p>
+
+        <!-- Секция авторизации -->
+        <div class="auth-section" id="authSection">
+            <div id="authStatus">
+                <span class="user-info" id="userNameDisplay">👤 Гость</span>
+                <button class="btn btn-login" onclick="showLoginModal()">Войти</button>
+            </div>
+            <div id="authStatusLogged" style="display:none;">
+                <span class="user-info" id="userNameDisplayLogged">👤 <span id="loggedUserName"></span></span>
+                <button class="btn btn-logout" onclick="logout()">Выйти</button>
+            </div>
+        </div>
+
+        <!-- Статус -->
+        <div class="status" id="statusMessage"></div>
+
+        <!-- Сетка тарифов -->
+        <div class="memberships-grid" id="membershipsGrid">
+            <div style="text-align:center; grid-column:1/-1; padding:40px; color:#888;">
+                ⏳ Загрузка тарифов...
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== МОДАЛЬНОЕ ОКНО ===== -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal">
+            <h2 id="modalTitle">Вход</h2>
+
+            <div id="loginForm">
+                <input type="email" id="loginEmail" placeholder="Email" required>
+                <input type="password" id="loginPassword" placeholder="Пароль" required>
+                <button class="btn-submit" onclick="login()">Войти</button>
+                <div class="switch-form">
+                    Нет аккаунта? <a onclick="switchToRegister()">Зарегистрироваться</a>
+                </div>
+            </div>
+
+            <div id="registerForm" style="display:none;">
+                <input type="text" id="registerName" placeholder="Имя и фамилия" required>
+                <input type="email" id="registerEmail" placeholder="Email" required>
+                <input type="tel" id="registerPhone" placeholder="Телефон" required>
+                <input type="password" id="registerPassword" placeholder="Пароль" required>
+                <button class="btn-submit" onclick="register()">Зарегистрироваться</button>
+                <div class="switch-form">
+                    Уже есть аккаунт? <a onclick="switchToLogin()">Войти</a>
+                </div>
+            </div>
+
+            <button class="btn-close" onclick="closeModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <script>
+        // ============================================================
+        //  КОНФИГУРАЦИЯ
+        // ============================================================
+
+        const API_BASE_URL = 'http://localhost:5252';
+
+        // ============================================================
+        //  ФУНКЦИИ РАБОТЫ С API
+        // ============================================================
+
+        // Загрузка тарифов
+        async function loadMemberships() {
+            const grid = document.getElementById('membershipsGrid');
+            const status = document.getElementById('statusMessage');
+
+            showStatus('Загрузка тарифов...', 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/Memberships`);
+
+                if (!response.ok) {
+                    throw new Error(`Ошибка HTTP: ${response.status}`);
+                }
+
+                const data = await response.json();
+                hideStatus();
+                renderMemberships(data);
+
+            } catch (error) {
+                console.error('❌ Ошибка загрузки:', error);
+                showStatus('❌ Не удалось загрузить тарифы. Убедитесь, что сервер запущен.', 'error');
+                grid.innerHTML = `
+                    <div style="text-align:center; grid-column:1/-1; padding:40px;">
+                        <p style="color:#c62828; font-size:18px;">⚠️ Не удалось загрузить тарифы</p>
+                        <p style="color:#888; font-size:14px; margin-top:10px;">
+                            Ошибка: ${error.message}
+                        </p>
+                        <button onclick="loadMemberships()" style="margin-top:15px; padding:10px 30px; background:#1976d2; color:white; border:none; border-radius:20px; cursor:pointer;">
+                            🔄 Повторить
+                        </button>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        //  ОТРИСОВКА ТАРИФОВ
+        // ============================================================
+
+        function renderMemberships(memberships) {
+            const grid = document.getElementById('membershipsGrid');
+            grid.innerHTML = '';
+
+            if (!memberships || memberships.length === 0) {
+                grid.innerHTML = `<div style="text-align:center; grid-column:1/-1; padding:40px; color:#888;">Нет доступных тарифов</div>`;
+                return;
+            }
+
+            memberships.forEach((m, index) => {
+                const card = document.createElement('div');
+                card.className = 'membership-card';
+
+                const icons = ['💪', '⭐', '🔥'];
+                const icon = icons[index % icons.length];
+
+                // ===== ОТОБРАЖЕНИЕ DESCRIPTION =====
+                let featuresHtml = '';
+                
+                if (m.descriptions) {
+                    // Разбиваем описание по переносу строки
+                    const items = m.descriptions.split('\n').filter(s => s.trim());
+                    featuresHtml = items.map(item => `<li>${item.trim()}</li>`).join('');
+                } else {
+                    featuresHtml = `<li>Описание отсутствует</li>`;
+                }
+
+                card.innerHTML = `
+                    <div class="icon">${icon}</div>
+                    <div class="name">${m.name || 'Без названия'}</div>
+                    <ul class="features">
+                        ${featuresHtml}
+                    </ul>
+                    <div class="price">
+                        ${m.price || 0}₽ <small>/ мес</small>
+                    </div>
+                    <button class="btn-buy" onclick="purchaseMembership('${m.id}')">
+                        Купить
+                    </button>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        // ============================================================
+        //  ПОКУПКА АБОНЕМЕНТА
+        // ============================================================
+
+        async function purchaseMembership(membershipId) {
+            const token = localStorage.getItem('authToken');
+
+            if (!token) {
+                showStatus('⚠️ Пожалуйста, войдите в систему, чтобы купить абонемент.', 'error');
+                showLoginModal();
+                return;
+            }
+
+            const status = document.getElementById('statusMessage');
+            showStatus('⏳ Оформление покупки...', 'loading');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/Memberships/purchase`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ membershipId: membershipId })
+                });
+
+                if (response.ok) {
+                    const result = await response.json();
+                    showStatus('✅ Абонемент успешно куплен! 🎉', 'success');
+                    console.log('Результат покупки:', result);
+                } else {
+                    const error = await response.text();
+                    showStatus(`❌ Ошибка при покупке: ${error}`, 'error');
+                }
+            } catch (error) {
+                console.error('❌ Ошибка:', error);
+                showStatus('❌ Произошла ошибка при покупке. Попробуйте позже.', 'error');
+            }
+
+            setTimeout(hideStatus, 5000);
+        }
+
+        // ============================================================
+        //  АВТОРИЗАЦИЯ
+        // ============================================================
+
+        function updateAuthUI() {
+            const token = localStorage.getItem('authToken');
+            const guest = document.getElementById('authStatus');
+            const logged = document.getElementById('authStatusLogged');
+            const nameDisplay = document.getElementById('loggedUserName');
+
+            if (token) {
+                guest.style.display = 'none';
+                logged.style.display = 'block';
+                nameDisplay.textContent = localStorage.getItem('userName') || 'Пользователь';
+            } else {
+                guest.style.display = 'block';
+                logged.style.display = 'none';
+            }
+        }
+
+        // Регистрация
+        async function register() {
+            const name = document.getElementById('registerName').value.trim();
+            const email = document.getElementById('registerEmail').value.trim();
+            const phone = document.getElementById('registerPhone').value.trim();
+            const password = document.getElementById('registerPassword').value;
+
+            if (!name || !email || !phone || !password) {
+                alert('Заполните все поля!');
+                return;
+            }
+
+            if (password.length < 6) {
+                alert('Пароль должен быть минимум 6 символов!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/Auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName: name, email, phone, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userName', data.fullName);
+                    updateAuthUI();
+                    closeModal();
+                    showStatus('✅ Регистрация успешна! Добро пожаловать!', 'success');
+                    setTimeout(hideStatus, 3000);
+                    loadMemberships();
+                } else {
+                    const error = await response.text();
+                    alert(`❌ Ошибка регистрации: ${error}`);
+                }
+            } catch (error) {
+                console.error('❌ Ошибка:', error);
+                alert('❌ Ошибка подключения к серверу');
+            }
+        }
+
+        // Логин
+        async function login() {
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value;
+
+            if (!email || !password) {
+                alert('Введите email и пароль!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/Auth/login`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('authToken', data.token);
+                    localStorage.setItem('userName', data.fullName);
+                    updateAuthUI();
+                    closeModal();
+                    showStatus(`✅ Добро пожаловать, ${data.fullName}!`, 'success');
+                    setTimeout(hideStatus, 3000);
+                    loadMemberships();
+                } else {
+                    alert('❌ Неверный email или пароль');
+                }
+            } catch (error) {
+                console.error('❌ Ошибка:', error);
+                alert('❌ Ошибка подключения к серверу');
+            }
+        }
+
+        // Выход
+        function logout() {
+            localStorage.removeItem('authToken');
+            localStorage.removeItem('userName');
+            updateAuthUI();
+            showStatus('👋 Вы вышли из системы', 'success');
+            setTimeout(hideStatus, 3000);
+            loadMemberships();
+        }
+
+        // ============================================================
+        //  МОДАЛЬНОЕ ОКНО
+        // ============================================================
+
+        function showLoginModal() {
+            document.getElementById('authModal').classList.add('active');
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('modalTitle').textContent = 'Вход';
+        }
+
+        function closeModal() {
+            document.getElementById('authModal').classList.remove('active');
+        }
+
+        function switchToRegister() {
+            document.getElementById('loginForm').style.display = 'none';
+            document.getElementById('registerForm').style.display = 'block';
+            document.getElementById('modalTitle').textContent = 'Регистрация';
+        }
+
+        function switchToLogin() {
+            document.getElementById('loginForm').style.display = 'block';
+            document.getElementById('registerForm').style.display = 'none';
+            document.getElementById('modalTitle').textContent = 'Вход';
+        }
+
+        document.getElementById('authModal').addEventListener('click', function(e) {
+            if (e.target === this) closeModal();
+        });
+
+        // ============================================================
+        //  СТАТУС
+        // ============================================================
+
+        function showStatus(message, type = 'info') {
+            const el = document.getElementById('statusMessage');
+            el.textContent = message;
+            el.className = `status ${type}`;
+        }
+
+        function hideStatus() {
+            const el = document.getElementById('statusMessage');
+            el.className = 'status';
+            el.textContent = '';
+        }
+
+        // ============================================================
+        //  ЗАГРУЗКА ПРИ СТАРТЕ
+        // ============================================================
+
+        updateAuthUI();
+        loadMemberships();
+
+        console.log('🔍 API URL:', API_BASE_URL);
+        console.log('🔑 Токен:', localStorage.getItem('authToken') ? '✅ Есть' : '❌ Нет');
+
+        // ============================================================
+        //  ЗАКРЫТИЕ МОДАЛКИ ПО ESC
+        // ============================================================
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // ============================================================
+        //  ВХОД ПО ENTER
+        // ============================================================
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                const modal = document.getElementById('authModal');
+                if (modal.classList.contains('active')) {
+                    const loginForm = document.getElementById('loginForm');
+                    const registerForm = document.getElementById('registerForm');
+                    if (loginForm.style.display !== 'none') {
+                        login();
+                    } else {
+                        register();
+                    }
+                }
+            }
+        });
+
+        console.log('✅ Страница загружена! Сервер должен быть запущен по адресу:', API_BASE_URL);
+    </script>
+
+</body>
+</html>
