@@ -85,3 +85,27 @@ http://localhost:5000/swagger/index.html
 ```
 
 # После всего этого, можно открыть html файл в папке frontend, должно всё работать
+
+
+```
+root@8428755-sa635045:~# docker compose down -v
+[+] down 4/4
+ ✔ Container fitness-api     Removed                                        0.4s
+ ✔ Container postgres        Removed                                        1.0s
+ ✔ Volume root_postgres-data Removed                                        0.2s
+ ✔ Network root_default      Removed                                        0.2s
+root@8428755-sa635045:~# docker compose up -d --build
+[+] up 4/4
+ ✔ Network root_default      Created                                        0.1s
+ ✔ Volume root_postgres-data Created                                        0.0s
+ ✔ Container postgres        Healthy                                       10.9s
+ ✔ Container fitness-api     Started                                       11.0s
+root@8428755-sa635045:~# ^C
+root@8428755-sa635045:~# 
+```
+```
+docker compose down -v
+```
+```
+docker compose up -d --build
+```
