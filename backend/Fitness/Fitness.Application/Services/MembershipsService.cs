@@ -27,7 +27,7 @@ namespace Fitness.Application.Services
             return await _membershipsRepository.Update(id, name, descriptions, price);
         }
 
-        public async Task<Guid> DeleteMemberships(Guid id)
+        public async Task<Guid?> DeleteMemberships(Guid id)
         {
             return await _membershipsRepository.Delete(id);
         }

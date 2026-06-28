@@ -7,6 +7,6 @@ namespace Fitness.Core.Abstractions
         Task<Guid> CreateMemberships(Membership membership);
         Task<Guid> DeleteMemberships(Guid id);
         Task<List<Membership>> GetAllMemberships();
-        Task<Guid> UpdateMemberships(Guid id, string name, string descriptions, decimal price);
+        Task<Guid?> UpdateMemberships(Guid id, string name, string descriptions, decimal price);
     }
 }

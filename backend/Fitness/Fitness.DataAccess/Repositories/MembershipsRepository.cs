@@ -55,13 +55,13 @@ namespace Fitness.DataAccess.Repositories
             return id;
         }
 
-        public async Task<Guid> Delete(Guid id)
+        public async Task<Guid?> Delete(Guid id)
         {
-            await _context.Memberships
+            var deletedCount = await _context.Memberships
                 .Where(x => x.Id == id)
                 .ExecuteDeleteAsync();
 
-            return id;
+            return deletedCount > 0 ? id : null;
         }
     }
 }

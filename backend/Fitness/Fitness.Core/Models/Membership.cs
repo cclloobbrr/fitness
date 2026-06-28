@@ -25,6 +25,7 @@
             if(name == null || name.Length > MAX_NAME_LENGHT)
             {
                 error = "The name is empty or more than allowed";
+                return (null, error);
             }
 
             if (description == null || description.Length > MAX_DESCRIPTION_LENGHT)

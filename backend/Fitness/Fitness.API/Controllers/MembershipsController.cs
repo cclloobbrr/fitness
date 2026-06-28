@@ -50,9 +50,11 @@ namespace Fitness.API.Controllers
         }
 
         [HttpDelete("{id:guid}")]
-        public async Task<ActionResult<Guid>> DeleteMembership(Guid id)
+        public async Task<ActionResult<Guid?>> DeleteMembership(Guid id)
         {
             var membershipsId = await _membershipsServices.DeleteMemberships(id);
+
+            if(membershipsId == null) return NotFound(membershipsId);
 
             return Ok(membershipsId);
         }

@@ -10,5 +10,6 @@ namespace Fitness.DataAccess
         }
 
         public DbSet<MembershipEntity> Memberships { get; set; }
+        public DbSet<UserEntity> Users { get; set; }
     }
 }
